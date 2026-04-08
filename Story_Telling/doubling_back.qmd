@@ -1,0 +1,212 @@
+# Doubling-Back Aversion Study
+
+## Overview
+
+This project analyzed how people make decisions when switching tasks, focusing on the effect of losing prior progress.
+
+## What I Did
+
+-   Conducted a 2x2 experimental study
+-   Analyzed switching behavior using logistic regression
+-   Used ANOVA to examine perceived differences in task completion and route construal
+
+## Results
+
+Participants were less likely to switch tasks when prior progress was framed as being lost. The project helped show how framing can influence decision-making behavior.
+
+## Tools Used
+
+R, Statistical Modeling, Data Analysis
+
+---
+title: "Doubling-Back Aversion Study"
+author: "Joey Kent"
+format: html
+editor: visual
+---
+
+```{r}
+library(rio)
+library(mosaic)
+library(tidyverse)
+library(car)
+library(dplyr)
+library(summarytools)
+library(psych)
+library(writexl)
+library(openxlsx)
+library(ggplot2)
+library(tidyr)
+library(agricolae)
+library(effectsize)
+
+cho <- read.csv("/Users/joeykent/Desktop/winter2026/experiencing_research/a_Winter_26_Cho_Doubling_Back_March_9_2026_20_14_copy.csv")
+head(cho)
+View(cho)
+```
+
+```{r}
+old_cho <- cho %>%
+  mutate(deletion = 1 - deletion,
+         task_remain = 1 - task_remain)
+View(old_cho)
+
+# Making the decision to stay the value of 1
+# cho$switch <- 1 - cho$switch
+
+# Reverse coding construal
+cho_reverse <- old_cho %>%
+  mutate(strtovr = (7+1) - strtovr)
+
+View(cho_reverse)
+
+#Factoring
+old_cho$deletion <- factor(old_cho$deletion)
+old_cho$task_remain <- factor(old_cho$task_remain)
+
+cho$deletion <- factor(cho$deletion)
+cho$task_remain <- factor(cho$task_remain)
+
+cho_reverse$deletion <- factor(cho_reverse$deletion)
+cho_reverse$task_remain <- factor(cho_reverse$task_remain)
+```
+
+```{r}
+# Considering Outliers for Route Time
+
+# favstats(cho$nodel_75_doctortime)
+# cho_clean <- cho %>%
+#   filter(doctor_time < 2000)
+
+# favstats(cho_clean$doctor_time)
+```
+
+```{r}
+# Switch graph
+ggplot(cho, aes(x = deletion, y = switch, fill = task_remain)) +
+  stat_summary(
+    fun = mean,
+    geom = "bar",
+    position = position_dodge(width = 0.9)
+  ) +
+  stat_summary(
+    fun.data = mean_se,
+    geom = "errorbar",
+    position = position_dodge(width = 0.9),
+    width = 0.2
+  ) +
+  scale_x_discrete(labels = c("1" = "Deletion", "0" = "No Deletion")) +
+  scale_fill_discrete(labels = c("1" = "100% Task Remaining", "0" = "75% Task Remaining")) +
+  scale_fill_manual(
+  values = c("#729b79", "#bacdb0"),
+  labels = c("75% Task Remaining", "100% Task Remaining")
+  ) +
+  labs(
+    title = "Proportion Switching by Condition",
+    x = "Deletion Condition",
+    y = "Proportion Switched",
+    fill = "Task Remaining"
+  ) +
+  theme_minimal()
+
+# Perceived route length graph
+ggplot(cho, aes(x = deletion, y = log_time_diff, fill = task_remain)) +
+  stat_summary(
+    fun = mean,
+    geom = "bar",
+    position = position_dodge(width = 0.9)
+  ) +
+  stat_summary(
+    fun.data = mean_se,
+    geom = "errorbar",
+    position = position_dodge(width = 0.9),
+    width = 0.2
+  ) +
+  scale_x_discrete(labels = c("1" = "Deletion", "0" = "No Deletion")) +
+  scale_fill_discrete(labels = c("1" = "100% Task Remaining", "0" = "75% Task Remaining")) +
+  scale_fill_manual(
+  values = c("#729b79", "#bacdb0"),
+  labels = c("75% Task Remaining", "100% Task Remaining")
+  ) +
+  labs(
+    title = "Perceived Route Length by Condition",
+    x = "Deletion Condition",
+    y = "Mean Log Difference: Doctor Time - School Time",
+    fill = "Task Remaining"
+  ) +
+  theme_minimal()
+
+# Perceived route length construal
+ggplot(old_cho, aes(x = deletion, y = strtovr, fill = task_remain)) +
+  stat_summary(
+    fun = mean,
+    geom = "bar",
+    position = position_dodge(width = 0.9)
+  ) +
+  stat_summary(
+    fun.data = mean_se,
+    geom = "errorbar",
+    position = position_dodge(width = 0.9),
+    width = 0.2
+  ) +
+  scale_x_discrete(labels = c("0" = "Deletion", "1" = "No Deletion")) +
+  scale_fill_discrete(labels = c("0" = "100% Task Remaining", "1" = "75% Task Remaining")) +
+  scale_fill_manual(
+  values = c("#729b79", "#bacdb0"),
+  labels = c("100% Task Remaining", "75% Task Remaining")
+  ) +
+  labs(
+    title = "Perceived Route Construal by Condition",
+    x = "Deletion Condition",
+    y = "Mean Route Construal Rating",
+    fill = "Task Remaining"
+  ) +
+  theme_minimal()
+
+```
+
+```{r}
+# Running logistic regression
+model <- glm(
+  switch ~ deletion * task_remain,
+  data = cho,
+  family = binomial
+)
+
+summary(model)
+
+# Getting odds ratio and confidence interval
+# exp(coef(model)) # how to get odds ratio, but we use that in the code chunk below
+exp(coef(model))
+exp(cbind(OR = coef(model), confint(model)))
+```
+
+The z score for the deletion variable is 2.282 (significant), task_remaining variable is 0.829 (not significant), and the relationship between the two variables is 0.737 (not significant). For odds ratio and confidence interval, deletion variable is 1.972 \[1.10, 3.56\] (significant), task_remaining variable is 1.289 \[0.71, 2.36\] (not significant), and the relationships between the two variables is 1.370 \[0.59, 3.17\] (not significant)
+
+```{r}
+# Running 2x2 ANOVA test for Perceived Route Length
+route_length_model <- aov(
+  log_time_diff ~ deletion * task_remain, data = cho
+  )
+summary(route_length_model)
+
+eta_squared(route_length_model)
+
+# Normality Test
+plot(route_length_model, which = 2)
+shapiro.test(residuals(route_length_model))
+```
+
+```{r}
+# Running 2x2 ANOVA test for Perceived Route Construal
+route_construal_model <- aov(
+  strtovr ~ deletion * task_remain, data = cho
+  )
+summary(route_construal_model)
+
+eta_squared(route_construal_model)
+
+# Normality Test
+plot(route_construal_model, which = 2)
+shapiro.test(residuals(route_construal_model))
+```

@@ -14,7 +14,7 @@ website:
     left: "Joseph Kent 2026©"
     right: 
       - icon: linkedin
-        href: https://www.linkedin.com/in/josephkent03
+        href: https://www.linkedin.com/in/joseph-kent03
 
   navbar:
     background: primary
@@ -80,14 +80,11 @@ website:
         - text: "Story Telling"
           file: story_telling.qmd
         - text: "---"
-        - text: "Project 1"
-          file: Story_Telling/project1.qmd
+        - text: "Anchoring Bias Study"
+          file: Story_Telling/anchoring_survey.qmd
         - text: "---"
-        - text: "Project 2"
-          file: Story_Telling/project2.qmd
-        - text: "---"
-        - text: "Project 3"
-          file: Story_Telling/project3.qmd
+        - text: "Doubling-Back Aversion Study"
+          file: Story_Telling/doubling_back.qmd
         - text: "---"
     - title: "Machine Learning"
       style: "docked"

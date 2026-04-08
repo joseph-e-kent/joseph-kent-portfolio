@@ -1,0 +1,173 @@
+# Anchoring Survey Experiment
+
+## Overview
+
+This project examined the anchoring effect by testing whether different starting numbers influenced participants’ estimates of the height of the tallest redwood tree.
+
+## What I Did
+
+-   Collected survey data from two anchor conditions
+-   Compared group estimates using summary statistics, visualizations, and a t-test
+-   Cleaned the data by filtering extreme outliers and calculated an anchoring index
+
+## Results
+
+Participants who received the higher anchor gave much larger estimates on average. The results supported the idea that numerical anchors can strongly influence judgment.
+
+## Tools Used
+
+R, ggplot2, Hypothesis Testing, Data Cleaning
+
+---
+title: "Anchoring Survey Experiment"
+author: "Joey Kent"
+format: html
+editor: visual
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, error = TRUE)
+```
+
+```{r}
+library(rio)
+library(mosaic)
+library(tidyverse)
+library(car)
+library(dplyr)
+library(summarytools)
+library(psych)
+library(writexl)
+library(openxlsx)
+library(ggplot2)
+library(tidyr)
+library(agricolae)
+
+anchor <- read.csv("/Users/joeykent/Desktop/winter2026/eng301/anchoring_survey_project/anchoring_survey.csv")
+
+View(anchor)
+head(anchor)
+str(anchor)
+table(anchor$exp_guess)
+
+```
+
+```{r}
+favstats(anchor$guess ~ anchor$group)
+describeBy(anchor$guess, anchor$group)
+```
+
+```{r}
+# Factor binary variables
+anchor$group <- as.factor(anchor$group)
+
+```
+
+```{r}
+ggplot(anchor, aes(x = group, y = guess, fill = group)) +
+  geom_boxplot() +
+  theme_minimal()
+
+ggplot(anchor, aes(x = group, y = guess, fill = group)) +
+  geom_point() +
+  theme_minimal()
+
+ggplot(anchor, aes(x = group, y = guess, fill = group)) +
+  stat_summary(fun = mean, geom = 'bar', position = 'dodge') +
+  theme_minimal()
+
+qqPlot(anchor$guess ~ anchor$group)
+
+```
+
+```{r}
+# Filter out guesses more than 20,000 feet
+clean_anchor <- anchor %>%
+  filter(guess < 10000)
+
+View(clean_anchor)
+favstats(clean_anchor$guess ~ clean_anchor$group)
+describeBy(clean_anchor$guess, clean_anchor$group)
+```
+
+```{r}
+# Graphs
+ggplot(clean_anchor, aes(x = group, y = guess, fill = group)) +
+  geom_boxplot() +
+  theme_minimal()
+
+ggplot(clean_anchor, aes(x = group, y = guess, fill = group)) +
+  geom_point() +
+  theme_minimal()
+
+ggplot(clean_anchor, aes(x = group, y = guess, fill = group)) +
+  stat_summary(fun = mean, geom = 'bar', position = 'dodge') +
+  theme_minimal()
+
+```
+
+```{r}
+cleaner_anchor <- anchor %>%
+  filter(guess < 5000)
+
+favstats(cleaner_anchor$guess ~ cleaner_anchor$group)
+describeBy(cleaner_anchor$guess, cleaner_anchor$group)
+
+View(cleaner_anchor)
+
+ggplot(cleaner_anchor, aes(x = group, y = guess, fill = group)) +
+  geom_boxplot() +
+  theme_minimal()
+
+ggplot(cleaner_anchor, aes(x = group, y = guess, fill = group)) +
+  geom_point() +
+  theme_minimal()
+
+ggplot(cleaner_anchor, aes(x = group, y = guess, fill = group)) +
+  stat_summary(fun = mean, geom = 'bar', position = 'dodge') +
+  theme_minimal()
+```
+
+```{r}
+t.test(cleaner_anchor$guess ~ cleaner_anchor$group, alternative = 'less')
+t.test(cleaner_anchor$guess ~ cleaner_anchor$group, conf.level = .95)$conf.int
+qqPlot(cleaner_anchor$guess ~ cleaner_anchor$group)
+```
+
+```{r}
+# Calculating Anchoring Index
+
+# Finding means
+favstats(anchor$guess ~ anchor$group)
+favstats(clean_anchor$guess ~ clean_anchor$group)
+favstats(cleaner_anchor$guess ~ cleaner_anchor$group)
+
+# Original data (anchor)
+mean_low <- 274.57
+mean_high <- 2493.45
+low_anchor <- 180
+high_anchor <- 1200
+
+anchoring_index <- (mean_high - mean_low) / (high_anchor - low_anchor)
+
+# Clean data (clean_anchor)
+mean_low <- 274.57
+mean_high <- 1479.19
+low_anchor <- 180
+high_anchor <- 1200
+
+anchoring_index_clean <- (mean_high - mean_low) / (high_anchor - low_anchor)
+
+# Cleaner data (cleaner_anchor)
+mean_low <- 274.57
+mean_high <- 1335.74
+low_anchor <- 180
+high_anchor <- 1200
+
+anchoring_index_cleaner <- (mean_high - mean_low) / (high_anchor - low_anchor)
+
+# Calling anchor indexes
+anchoring_index
+anchoring_index_clean # < 10000
+anchoring_index_cleaner # < 5000
+```
