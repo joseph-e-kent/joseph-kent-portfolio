@@ -1,89 +1,96 @@
 ---
 layout: cv
-title: Isaac Newtons's CV
+title: Joseph Kent's CV
 ---
-# Isaac Newton
-Physicist, Mathematician, Cambridge professor.
+
+# Joseph Kent
+Psychology and Data Science Student
 
 <div id="webaddress">
-<a href="isaac@applesdofall.org">isaac@applesdofall.org</a>
-| <a href="http://en.wikipedia.org/wiki/Isaac_Newton">My wikipedia page</a>
+<a href="mailto:joseph.e.kent03@gmail.com">joseph.e.kent03@gmail.com</a> |
+<a href="https://www.linkedin.com/in/josephkent03">LinkedIn</a>
 </div>
 
+---
 
 ## Currently
 
-Standing on the shoulders of giants
+Student at Brigham Young University–Idaho pursuing Psychology and Data Science with interests in programming, research, and data-driven problem solving.
 
-### Specialized in
+---
 
-Laws of motion, gravitation, minting coins, disliking [Robert Hooke](http://en.wikipedia.org/wiki/Robert_Hooke)
+## Specialized in
 
+Python, R, SQL, Data Analysis, Statistical Modeling
 
-### Research interests
+---
 
-Cooling, power series, optics, alchemy, planetary motions, apples.
+## Research Interests
 
+Cognition, Decision-Making, AI, Behavioral Data Science
+
+---
 
 ## Education
 
-`1654-1660`
-__The King's School, Grantham.__
+`2021 - Present`  
+__Brigham Young University–Idaho, Rexburg, Idaho__  
+Bachelor of Science: Psychology / Data Science  
+- 4.0 GPA  
+- Experiencing Research course  
 
-`June 1661 - now`
-__Trinity College, Cambridge__
+`2017 - 2021`  
+__Eagle High School, Eagle, Idaho__  
+High School Diploma, Honors  
+- 3.9 GPA  
+- Captain of Varsity Tennis Team  
+- Section Leader in Marching Band  
 
-- Sizar
+---
 
-`1667 - death`
-__Trinity College, Cambridge__
+## Research Experience
 
-- Fellow
+`Jan 2026 - Apr 2026`  
+__Research Assistant, Dr. Martin__  
+- Led a student research team investigating doubling-back aversion and decision-making behavior  
+- Designed and conducted a 2x2 experimental study analyzing switching behavior and cognitive framing  
+- Analyzed data using R, including logistic regression and ANOVA  
+- Presented findings at R&CW (Research & Creative Works Conference)  
 
+---
 
+## Work Experience
 
-## Awards
+`May 2025 - Jul 2025`  
+__FSY Assistant Coordinator, U.S. Locations__  
+- Managed program logistics and coordinated daily operations across multiple sessions  
+- Mentored over 80 counselors through leadership, training, and performance feedback  
+- Handled high-responsibility assignments including events, presentations, and technical setup  
+- Responded to incidents and ensured participant safety and program success  
 
-`2012`
-President, *Royal Society*, London, UK
+`May 2024 - Aug 2024`  
+__FSY Counselor, U.S. Locations__  
+- Taught daily lessons focused on personal development and goal setting  
+- Built strong interpersonal connections with youth participants  
+- Assisted in coordinating and executing daily activities  
 
-Associate, *French Academy of Science*, Paris, France
+---
 
+## Volunteer Experience
 
+`Jan 2022 - Mar 2024`  
+__Full-Time Missionary, South Korea__  
+- Developed advanced Korean proficiency and taught daily lessons in Korean  
+- Led English Connect program and trained missionaries in teaching methods  
+- Created uplifting media content for mission-wide distribution  
+- Adapted to diverse environments including urban, rural, and military communities  
 
-## Publications
+---
 
-<!-- A list is also available [online](http://scholar.google.co.uk/citations?user=LTOTl0YAAAAJ) -->
+## Skills
 
-### Journals
-
-`1669`
-Newton Sir I, De analysi per æquationes numero terminorum infinitas. 
-
-`1669`
-Lectiones opticæ.
-
-etc. etc. etc.
-
-### Patents
-
-`2012`
-Infinitesimal calculus for solutions to physics problems, [SMBC](http://www.techdirt.com/articles/20121011/09312820678/if-patents-had-been-around-time-newton.shtml) patent 001
-
-
-## Occupation
-
-`1600`
-__Royal Mint__, London
-
-- Warden
-- Minted coins
-
-`1600`
-__Lucasian professor of Mathematics__, Cambridge University
-
-
-
-<!-- ### Footer
-
-Last updated: May 2013 -->
+- Programming: Python, R, SQL  
+- Data Analysis & Visualization  
+- Statistical Modeling (Logistic Regression, ANOVA)  
+- Leadership & Team Management  
+- Korean Language (Advanced Proficiency)
